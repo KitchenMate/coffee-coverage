@@ -111,6 +111,7 @@ module.exports = (options={}) ->
             compiled = compiledCache.get fileName, -> instrumentFile(fileName)
             module._compile compiled, fileName
 
+    replaceHandler ".coffee2"
     replaceHandler ".coffee"
     replaceHandler ".litcoffee"
     replaceHandler ".coffee.md"
