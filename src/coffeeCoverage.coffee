@@ -307,6 +307,7 @@ class exports.CoverageInstrumentor extends events.EventEmitter
 exports._runInstrumentor = (instrumentor, fileName, source, options={}) ->
     assert instrumentor, "instrumentor"
     console.log("INSTRUMENTING::", fileName)
+    fileExtension = path.extname(fileName)
     # Compile coffee to nodes.
     try
         options.log?.debug? "Instrumenting #{fileName}"
@@ -314,14 +315,18 @@ exports._runInstrumentor = (instrumentor, fileName, source, options={}) ->
             bare: options.bare ? false
             literate: /\.(litcoffee|coffee\.md)$/.test(fileName)
         }
-
-        tokens = coffee1.tokens source, coffeeOptions
-
+        if (fileExtension == ".coffee2")
+            tokens = coffee2.tokens source, coffeeOptions
+        else
+            tokens = coffee1.tokens source, coffeeOptions
         # collect referenced variables
         coffeeOptions.referencedVars = _.uniq(token[1] for token in tokens when token[0] == 'IDENTIFIER')
 
         # convert tokens to ast
-        ast = coffee1.nodes(tokens)
+        if (fileExtension == ".coffee2")
+            ast = coffee2.nodes(tokens)
+        else
+            ast = coffee1.nodes(tokens)
     catch err
         throw new CoverageError("Could not parse #{fileName}: #{err.stack}")
 
