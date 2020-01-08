@@ -11,7 +11,9 @@ events       = require 'events'
 fs           = require 'fs'
 util         = require 'util'
 path         = require 'path'
-coffeeScript = require 'coffeescript'
+coffee1 = require 'coffee-script'
+coffee2 = require 'coffeescript'
+
 _            = require 'lodash'
 
 NodeWrapper                     = require './NodeWrapper'
@@ -304,7 +306,7 @@ class exports.CoverageInstrumentor extends events.EventEmitter
 #
 exports._runInstrumentor = (instrumentor, fileName, source, options={}) ->
     assert instrumentor, "instrumentor"
-
+    console.log("INSTRUMENTING::", fileName)
     # Compile coffee to nodes.
     try
         options.log?.debug? "Instrumenting #{fileName}"
@@ -313,13 +315,13 @@ exports._runInstrumentor = (instrumentor, fileName, source, options={}) ->
             literate: /\.(litcoffee|coffee\.md)$/.test(fileName)
         }
 
-        tokens = coffeeScript.tokens source, coffeeOptions
+        tokens = coffee1.tokens source, coffeeOptions
 
         # collect referenced variables
         coffeeOptions.referencedVars = _.uniq(token[1] for token in tokens when token[0] == 'IDENTIFIER')
 
         # convert tokens to ast
-        ast = coffeeScript.nodes(tokens)
+        ast = coffee1.nodes(tokens)
     catch err
         throw new CoverageError("Could not parse #{fileName}: #{err.stack}")
 
