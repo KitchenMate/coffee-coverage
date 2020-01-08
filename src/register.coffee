@@ -106,7 +106,10 @@ module.exports = (options={}) ->
         origCoffeeHandler = require.extensions[extension]
         require.extensions[extension] = (module, fileName) ->
             if excludeFile fileName, options
+                console.log("EXCLUDING: ", fileName, extension)
                 return origCoffeeHandler.call this, module, fileName
+            else
+                console.log("COMPLING: ", fileName, extension)
 
             compiled = compiledCache.get fileName, -> instrumentFile(fileName)
             module._compile compiled, fileName
