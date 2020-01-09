@@ -318,7 +318,7 @@ exports._runInstrumentor = (instrumentor, fileName, source, options={}) ->
         if (fileExtension == ".coffee2")
             tokens = coffee2.tokens source, coffeeOptions
         else
-            tokens = coffee1.tokens source, coffeeOptions
+            tokens = coffee2.tokens source, coffeeOptions # TODO: Debug coffee2 transpiler
         # collect referenced variables
         coffeeOptions.referencedVars = _.uniq(token[1] for token in tokens when token[0] == 'IDENTIFIER')
 
@@ -326,7 +326,7 @@ exports._runInstrumentor = (instrumentor, fileName, source, options={}) ->
         if (fileExtension == ".coffee2")
             ast = coffee2.nodes(tokens)
         else
-            ast = coffee1.nodes(tokens)
+            ast = coffee2.nodes(tokens) # TODO: Debug coffee1 transpiler
     catch err
         throw new CoverageError("Could not parse #{fileName}: #{err.stack}")
 
