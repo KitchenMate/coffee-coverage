@@ -306,7 +306,6 @@ class exports.CoverageInstrumentor extends events.EventEmitter
 #
 exports._runInstrumentor = (instrumentor, fileName, source, options={}) ->
     assert instrumentor, "instrumentor"
-    console.log("INSTRUMENTING::", fileName)
     fileExtension = path.extname(fileName)
     # Compile coffee to nodes.
     try
