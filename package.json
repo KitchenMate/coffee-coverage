@@ -1,5 +1,5 @@
 {
-  "name": "@kitchenmate/coffee-coverage",
+  "name": "coffee-coverage",
   "description": "Istanbul and JSCoverage-style instrumentation for CoffeeScript files.",
   "keywords": [
     "javascript",
